@@ -1,0 +1,28 @@
+---
+
+galaxy_info:
+  author: devops.works
+  description: Deploy and configure egress-auditor for outbound connection monitoring
+  license: MIT
+  min_ansible_version: "2.12"
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - noble
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+  galaxy_tags:
+    - networking
+    - security
+    - firewall
+    - monitoring
+
+dependencies: []

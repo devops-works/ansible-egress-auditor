@@ -1,0 +1,7 @@
+---
+
+- name: Restart egress-auditor
+  ansible.builtin.systemd:
+    name: egress-auditor
+    state: restarted
+    daemon_reload: true

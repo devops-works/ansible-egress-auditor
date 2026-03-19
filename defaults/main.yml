@@ -1,0 +1,46 @@
+---
+
+# Version to deploy
+egress_auditor_version: "v0.1.1"
+
+# Architecture mapping from ansible_architecture
+# Override this to force a specific architecture (amd64, arm64, 386)
+egress_auditor_arch: >-
+  {{ _egress_auditor_arch_map[ansible_architecture] | default('amd64') }}
+
+# Binary install path
+egress_auditor_bin_path: /usr/local/bin/egress-auditor
+
+# Input plugin
+egress_auditor_input: nflog
+
+# Input plugin options (list of -I flags)
+egress_auditor_input_options:
+  - "nflog:group:{{ egress_auditor_nflog_group }}"
+
+# Output plugin
+egress_auditor_output: logfmt
+
+# Output plugin options (list of -O flags)
+egress_auditor_output_options: []
+
+# Extra CLI arguments (e.g. "-R" to rename process)
+egress_auditor_extra_args: ""
+
+# Service user
+egress_auditor_user: root
+
+# Set cap_net_admin on binary (useful when running as non-root)
+egress_auditor_setcap: false
+
+# NFLOG group ID
+egress_auditor_nflog_group: 100
+
+# Whether to manage iptables NFLOG rule
+egress_auditor_nflog_manage_rules: true
+
+# Logrotate configuration
+egress_auditor_logrotate: "{{ egress_auditor_output == 'logfmt' }}"
+egress_auditor_logfile: /var/log/egress-auditor.log
+egress_auditor_logrotate_frequency: daily
+egress_auditor_logrotate_rotate: 14

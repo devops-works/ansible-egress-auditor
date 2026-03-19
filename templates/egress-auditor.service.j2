@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Egress Auditor - outbound connection monitor
+After=network.target
+
+[Service]
+Type=simple
+User={{ egress_auditor_user }}
+ExecStart={{ egress_auditor_bin_path }} -i {{ egress_auditor_input }}{% for opt in egress_auditor_input_options %} -I {{ opt }}{% endfor %} -o {{ egress_auditor_output }}{% for opt in egress_auditor_output_options %} -O {{ opt }}{% endfor %}{% if egress_auditor_extra_args %} {{ egress_auditor_extra_args }}{% endif %}
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

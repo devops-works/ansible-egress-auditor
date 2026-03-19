@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+{{ egress_auditor_logfile }} {
+    {{ egress_auditor_logrotate_frequency }}
+    rotate {{ egress_auditor_logrotate_rotate }}
+    compress
+    delaycompress
+    missingok
+    notifempty
+    postrotate
+        /bin/systemctl kill --signal=HUP egress-auditor 2>/dev/null || true
+    endscript
+}
