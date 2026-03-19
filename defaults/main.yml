@@ -42,6 +42,13 @@ egress_auditor_nflog_manage_rules: true
 # nftables chain priority (positive = runs after standard filter chains)
 egress_auditor_nflog_chain_priority: 10
 
+# Accept rules applied before the NFLOG target (these packets will NOT be logged)
+# Each entry is an nftables rule expression, e.g.:
+#   - "tcp dport 443 accept"
+#   - "ip daddr 10.0.0.0/8 accept"
+#   - "tcp dport { 80, 443 } accept"
+egress_auditor_nflog_accept_rules: []
+
 # Logrotate configuration
 egress_auditor_logrotate: "{{ egress_auditor_output == 'logfmt' }}"
 egress_auditor_logfile: /var/log/egress-auditor.log

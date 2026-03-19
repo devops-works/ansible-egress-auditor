@@ -4,6 +4,9 @@ delete table inet egress_auditor
 table inet egress_auditor {
     chain output {
         type filter hook output priority {{ egress_auditor_nflog_chain_priority }}; policy accept;
+{% for rule in egress_auditor_nflog_accept_rules %}
+        {{ rule }}
+{% endfor %}
         ct state new tcp dport != 0 log group {{ egress_auditor_nflog_group }} accept
     }
 }
