@@ -25,16 +25,14 @@
     mode: "0644"
   notify: Restart egress-auditor
 
-- name: Add iptables NFLOG rule for OUTPUT chain
-  ansible.builtin.iptables:
-    chain: OUTPUT
-    ctstate:
-      - NEW
-    protocol: tcp
-    jump: NFLOG
-    ip_version: ipv4
-    nflog_group: "{{ egress_auditor_nflog_group }}"
-    action: insert
+- name: Deploy nftables rules for egress-auditor
+  ansible.builtin.template:
+    src: egress-auditor.nft.j2
+    dest: /etc/nftables.d/egress-auditor.nft
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload egress-auditor nftables rules
   when:
     - egress_auditor_nflog_manage_rules | bool
     - egress_auditor_input == 'nflog'

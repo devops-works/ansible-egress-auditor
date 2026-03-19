@@ -21,8 +21,8 @@ Ansible role to deploy [egress-auditor](https://github.com/devops-works/egress-a
 | `egress_auditor_extra_args` | `""` | Extra CLI arguments (e.g. `-R` to hide process name) |
 | `egress_auditor_user` | `root` | User to run the service as |
 | `egress_auditor_setcap` | `true` | Set `cap_net_admin` capability on the binary |
-| `egress_auditor_nflog_group` | `100` | NFLOG group ID for the iptables rule |
-| `egress_auditor_nflog_manage_rules` | `true` | Add an iptables NFLOG rule on the OUTPUT chain |
+| `egress_auditor_nflog_group` | `100` | NFLOG group ID for the nftables rule |
+| `egress_auditor_nflog_manage_rules` | `true` | Deploy nftables rules to log new outbound TCP connections |
 | `egress_auditor_logrotate` | `true` when output is `logfmt` | Deploy a logrotate configuration |
 | `egress_auditor_logfile` | `/var/log/egress-auditor.log` | Log file path (used by logrotate) |
 | `egress_auditor_logrotate_frequency` | `daily` | Logrotate frequency |
@@ -33,10 +33,8 @@ Ansible role to deploy [egress-auditor](https://github.com/devops-works/egress-a
 1. Downloads the egress-auditor binary from GitHub releases
 2. Sets `cap_net_admin` capability on the binary (when `egress_auditor_setcap` is true)
 3. Deploys a systemd unit file and enables/starts the service
-4. Adds an iptables rule to send new outbound TCP connections to NFLOG (when using the `nflog` input plugin and `egress_auditor_nflog_manage_rules` is true)
+4. Deploys nftables rules in a dedicated `inet egress_auditor` table to log new outbound TCP connections via NFLOG (when using the `nflog` input plugin and `egress_auditor_nflog_manage_rules` is true). Rules are written to `/etc/nftables.d/egress-auditor.nft` and loaded with `nft -f`.
 5. Deploys a logrotate configuration that sends SIGHUP to trigger log file reopen (when using the `logfmt` output plugin)
-
-Note: the iptables rule is added at runtime and will not survive a reboot unless you persist it separately.
 
 ## Example Playbook
 

@@ -5,3 +5,8 @@
     name: egress-auditor
     state: restarted
     daemon_reload: true
+
+- name: Reload egress-auditor nftables rules
+  ansible.builtin.command:
+    cmd: nft -f /etc/nftables.d/egress-auditor.nft
+  changed_when: false
