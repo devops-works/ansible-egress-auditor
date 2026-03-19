@@ -39,8 +39,8 @@ egress_auditor_nflog_group: 100
 # Whether to manage nftables NFLOG rules
 egress_auditor_nflog_manage_rules: true
 
-# nftables chain priority (negative = runs before standard filter chains)
-egress_auditor_nflog_chain_priority: -10
+# nftables chain priority (positive = runs after standard filter chains)
+egress_auditor_nflog_chain_priority: 10
 
 # Logrotate configuration
 egress_auditor_logrotate: "{{ egress_auditor_output == 'logfmt' }}"
