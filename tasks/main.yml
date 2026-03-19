@@ -1,56 +1,9 @@
 ---
 
-- name: Download egress-auditor binary
-  ansible.builtin.get_url:
-    url: "https://github.com/devops-works/egress-auditor/releases/download/{{ egress_auditor_version }}/egress-auditor_linux_{{ egress_auditor_arch }}"
-    dest: "{{ egress_auditor_bin_path }}"
-    mode: "0755"
-    owner: root
-    group: root
-  notify: Restart egress-auditor
-
-- name: Set cap_net_admin capability on binary
-  community.general.capabilities:
-    path: "{{ egress_auditor_bin_path }}"
-    capability: cap_net_admin+ep
-    state: present
-  when: egress_auditor_setcap | bool
-
-- name: Deploy systemd unit file
-  ansible.builtin.template:
-    src: egress-auditor.service.j2
-    dest: /etc/systemd/system/egress-auditor.service
-    owner: root
-    group: root
-    mode: "0644"
-  notify: Restart egress-auditor
-
-- name: Add iptables NFLOG rule for OUTPUT chain
-  ansible.builtin.iptables:
-    chain: OUTPUT
-    ctstate:
-      - NEW
-    protocol: tcp
-    jump: NFLOG
-    ip_version: ipv4
-    nflog_group: "{{ egress_auditor_nflog_group }}"
-    action: insert
-  when:
-    - egress_auditor_nflog_manage_rules | bool
-    - egress_auditor_input == 'nflog'
-
-- name: Deploy logrotate configuration
-  ansible.builtin.template:
-    src: egress-auditor.logrotate.j2
-    dest: /etc/logrotate.d/egress-auditor
-    owner: root
-    group: root
-    mode: "0644"
-  when: egress_auditor_logrotate | bool
-
-- name: Enable and start egress-auditor
-  ansible.builtin.systemd:
-    name: egress-auditor
-    enabled: true
-    state: started
-    daemon_reload: true
+- include_tasks:
+    file: egress-auditor.yml
+    apply:
+      tags:
+        - egress-auditor
+  tags:
+    - always
