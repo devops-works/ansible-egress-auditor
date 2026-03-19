@@ -1,7 +1,9 @@
 # {{ ansible_managed }}
+table inet egress_auditor
+delete table inet egress_auditor
 table inet egress_auditor {
     chain output {
-        type filter hook output priority 0; policy accept;
+        type filter hook output priority {{ egress_auditor_nflog_chain_priority }}; policy accept;
         ct state new tcp dport != 0 log group {{ egress_auditor_nflog_group }} accept
     }
 }

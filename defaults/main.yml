@@ -36,8 +36,11 @@ egress_auditor_setcap: false
 # NFLOG group ID
 egress_auditor_nflog_group: 100
 
-# Whether to manage iptables NFLOG rule
+# Whether to manage nftables NFLOG rules
 egress_auditor_nflog_manage_rules: true
+
+# nftables chain priority (negative = runs before standard filter chains)
+egress_auditor_nflog_chain_priority: -10
 
 # Logrotate configuration
 egress_auditor_logrotate: "{{ egress_auditor_output == 'logfmt' }}"
