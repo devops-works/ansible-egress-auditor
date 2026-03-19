@@ -24,7 +24,7 @@ Ansible role to deploy [egress-auditor](https://github.com/devops-works/egress-a
 | `egress_auditor_nflog_group` | `100` | NFLOG group ID for the nftables rule |
 | `egress_auditor_nflog_manage_rules` | `true` | Deploy nftables rules to log new outbound TCP connections |
 | `egress_auditor_nflog_chain_priority` | `10` | nftables chain priority (runs after standard filter chains at priority 0) |
-| `egress_auditor_nflog_accept_rules` | `[]` | List of nftables accept rules applied before NFLOG (matched packets are silently accepted, not logged) |
+| `egress_auditor_nflog_bypass_rules` | `[]` | List of nftables accept rules applied before NFLOG (matched packets are silently accepted, not logged) |
 | `egress_auditor_logrotate` | `true` when output is `logfmt` | Deploy a logrotate configuration |
 | `egress_auditor_logfile` | `/var/log/egress-auditor.log` | Log file path (used by logrotate) |
 | `egress_auditor_logrotate_frequency` | `daily` | Logrotate frequency |
@@ -71,7 +71,7 @@ Ansible role to deploy [egress-auditor](https://github.com/devops-works/egress-a
       egress_auditor_output: logfmt
       egress_auditor_output_options:
         - "logfmt:file:/var/log/egress-auditor.log"
-      egress_auditor_nflog_accept_rules:
+      egress_auditor_nflog_bypass_rules:
         - "tcp dport { 80, 443 } accept"
         - "ip daddr 10.0.0.0/8 accept"
 ```
