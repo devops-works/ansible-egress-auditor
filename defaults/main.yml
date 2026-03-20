@@ -42,6 +42,9 @@ egress_auditor_nflog_manage_rules: true
 # nftables chain priority (positive = runs after standard filter chains)
 egress_auditor_nflog_chain_priority: 10
 
+# Bypass DNS requests to host nameservers (from /etc/resolv.conf)
+egress_auditor_nflog_bypass_dns: true
+
 # Accept rules applied before the NFLOG target (these packets will NOT be logged)
 # Each entry is an nftables rule expression, e.g.:
 #   - "tcp dport 443 accept"

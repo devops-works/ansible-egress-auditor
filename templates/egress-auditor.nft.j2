@@ -4,6 +4,15 @@ delete table inet egress_auditor
 table inet egress_auditor {
     chain output {
         type filter hook output priority {{ egress_auditor_nflog_chain_priority }}; policy accept;
+{% if egress_auditor_nflog_bypass_dns | bool %}
+{% for ns in ansible_dns.nameservers %}
+{% if ':' in ns %}
+        ip6 daddr {{ ns }} th dport 53 accept
+{% else %}
+        ip daddr {{ ns }} th dport 53 accept
+{% endif %}
+{% endfor %}
+{% endif %}
 {% for rule in egress_auditor_nflog_bypass_rules %}
         {{ rule }}
 {% endfor %}
