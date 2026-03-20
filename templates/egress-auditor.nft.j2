@@ -8,5 +8,6 @@ table inet egress_auditor {
         {{ rule }}
 {% endfor %}
         ct state new tcp dport != 0 log group {{ egress_auditor_nflog_group }} accept
+        ct state new udp dport != 0 log group {{ egress_auditor_nflog_group }} accept
     }
 }

@@ -1,7 +1,7 @@
 ---
 
 # Version to deploy
-egress_auditor_version: "v0.1.1"
+egress_auditor_version: "v0.2.0"
 
 # Architecture mapping from ansible_architecture
 # Override this to force a specific architecture (amd64, arm64, 386)
