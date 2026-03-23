@@ -25,10 +25,21 @@
     mode: "0644"
   notify: Restart egress-auditor
 
+- name: Create nftables custom rules directory
+  ansible.builtin.file:
+    path: /etc/nftables.d/custom
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  when:
+    - egress_auditor_nflog_manage_rules | bool
+    - egress_auditor_input == 'nflog'
+
 - name: Deploy nftables rules for egress-auditor
   ansible.builtin.template:
     src: egress-auditor.nft.j2
-    dest: /etc/nftables.d/egress-auditor.nft
+    dest: /etc/nftables.d/custom/egress-auditor.nft
     owner: root
     group: root
     mode: "0644"

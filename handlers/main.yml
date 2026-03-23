@@ -8,5 +8,5 @@
 
 - name: Reload egress-auditor nftables rules
   ansible.builtin.command:
-    cmd: nft -f /etc/nftables.d/egress-auditor.nft
+    cmd: nft -f /etc/nftables.d/custom/egress-auditor.nft
   changed_when: false
