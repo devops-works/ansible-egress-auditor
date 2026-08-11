@@ -3,10 +3,10 @@
 # Version to deploy
 egress_auditor_version: "v0.2.0"
 
-# Architecture mapping from ansible_architecture
+# Architecture mapping from ansible_facts['architecture']
 # Override this to force a specific architecture (amd64, arm64, 386)
 egress_auditor_arch: >-
-  {{ _egress_auditor_arch_map[ansible_architecture] | default('amd64') }}
+  {{ _egress_auditor_arch_map[ansible_facts['architecture']] | default('amd64') }}
 
 # Binary install path
 egress_auditor_bin_path: /usr/local/bin/egress-auditor

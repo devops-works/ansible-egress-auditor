@@ -12,7 +12,7 @@ Ansible role to deploy [egress-auditor](https://github.com/devops-works/egress-a
 | Variable | Default | Description |
 |---|---|---|
 | `egress_auditor_version` | `v0.1.1` | Release tag to download |
-| `egress_auditor_arch` | auto-detected | Binary architecture (`amd64`, `arm64`, `386`). Auto-mapped from `ansible_architecture` |
+| `egress_auditor_arch` | auto-detected | Binary architecture (`amd64`, `arm64`, `386`). Auto-mapped from `ansible_facts['architecture']` |
 | `egress_auditor_bin_path` | `/usr/local/bin/egress-auditor` | Install path for the binary |
 | `egress_auditor_input` | `nflog` | Input plugin |
 | `egress_auditor_input_options` | `["nflog:group:100"]` | List of `-I` flags passed to egress-auditor |
